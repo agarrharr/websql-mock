@@ -1,25 +1,51 @@
 websqlMock = function() {
+  var database = {};
 
   var reservedWords = [
-    'SELECT',
-    'INSERT',
-    'UPDATE',
     '*',
     'FROM',
+    'INTO',
     'WHERE'
   ];
 
+  var queryTypes = {
+    'CREATE': 'create',
+    'SELECT': 'read',
+    'INSERT': 'update',
+    'UPDATE': 'update',
+  };
+
   var query = function(query, data) {
+    database = data;
+    var queryType = getQueryType(query);
     return {};
   };
 
-  var select = function(query, data) {
+  var createData = function(table, data) {
   };
 
-  var insert = function(query, data) {
+  var readData = function(table, rows, conditions) {
   };
 
-  var update = function(query, data) {
+  var updateData = function(query) {
+  };
+
+  var deleteData = function(query) {
+  };
+
+  var destroy = function(query) {
+    database = {};
+  };
+
+  var getQueryType = function(query) {
+    console.log(queryTypes);
+    console.log(query);
+    console.log(query.split(' '));
+    console.log(query.split(' '));
+    console.log(query.split(' ')[0]);
+    console.log(query.split(' ')[0].toUpperCase());
+    console.log(queryTypes[query.split(' ')[0].toUpperCase()]);
+    return queryTypes[query.split(' ')[0].toUpperCase()];
   };
 
   var isReservedWord = function(word) {
@@ -32,13 +58,16 @@ websqlMock = function() {
 
   public = {
     query: query,
-    select: select,
-    insert: insert,
-    update: update
+    createData: createData,
+    readData: readData,
+    updateData: updateData,
+    deleteData: deleteData,
+    destroy: destroy
   };
 
   public._private = {
-    isReservedWord: isReservedWord
+    isReservedWord: isReservedWord,
+     getQueryType: getQueryType
   };
 
   return public;
