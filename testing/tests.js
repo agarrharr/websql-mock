@@ -1,5 +1,5 @@
 /*test('query', function() {
-  equal(websqlMock.query('SELECT * FROM employees WHERE salary > 40000',
+  equal(websqlMock.query('SELECT * FROM employees WHERE salary > 40000 AND id > 1',
       {
         employees: [
           {

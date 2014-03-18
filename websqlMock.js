@@ -21,13 +21,46 @@ websqlMock = function() {
   var query = function(query, data) {
     database = data;
     var queryType = getQueryType(query);
-    var table;
-    var rows;
-    var conditions;
     if(queryType === 'read') {
-
+      return readData(parse(query));
+    } else {
+      return {};
     }
-    return {};
+  };
+
+  var setDatabase = function(db) {
+    database = db;
+  };
+
+  var createData = function(table, data) {
+  };
+
+  var readData = function(command) {
+    console.log(command);
+    var table;
+    var rows = [];
+    if(typeof command.FROM !== 'undefined') {
+      table = command.FROM;
+    }
+    console.log(table);
+    if(command.SELECT === '*') {
+      for(var key in database[table][0]) {
+        rows.push(key);
+      }
+    } else {
+      rows = command.SELECT.split(' ');
+    }
+    console.log(rows);
+  };
+
+  var updateData = function(query) {
+  };
+
+  var deleteData = function(query) {
+  };
+
+  var destroy = function(query) {
+    database = {};
   };
 
   var parse = function(query) {
@@ -49,22 +82,6 @@ websqlMock = function() {
     return json;
   };
 
-  var createData = function(table, data) {
-  };
-
-  var readData = function(table, rows, conditions) {
-  };
-
-  var updateData = function(query) {
-  };
-
-  var deleteData = function(query) {
-  };
-
-  var destroy = function(query) {
-    database = {};
-  };
-
   var getQueryType = function(query) {
     return queryTypes[query.split(' ')[0].toUpperCase()];
   };
@@ -79,17 +96,18 @@ websqlMock = function() {
 
   public = {
     query: query,
-    createData: createData,
-    readData: readData,
-    updateData: updateData,
-    deleteData: deleteData,
-    destroy: destroy
+    setDatabase: setDatabase
   };
 
   public._private = {
     parse: parse,
     isReservedWord: isReservedWord,
-    getQueryType: getQueryType
+    getQueryType: getQueryType,
+    createData: createData,
+    readData: readData,
+    updateData: updateData,
+    deleteData: deleteData,
+    destroy: destroy
   };
 
   return public;
