@@ -27,6 +27,16 @@
   );
 });*/
 
+test('parse', function() {
+  deepEqual(websqlMock._private.parse('SELECT * FROM employees WHERE salary > 40000'),
+    {
+      SELECT: '*',
+      FROM: 'employees',
+      WHERE: 'salary > 40000'
+    }
+  );
+});
+
 test('getQueryType', function() {
   equal(websqlMock._private.getQueryType('Select * From whatever'), 'read');
 });

@@ -2,7 +2,10 @@ websqlMock = function() {
   var database = {};
 
   var reservedWords = [
-    '*',
+    'CREATE',
+    'SELECT',
+    'INSERT',
+    'UPDATE',
     'FROM',
     'INTO',
     'WHERE'
@@ -18,7 +21,32 @@ websqlMock = function() {
   var query = function(query, data) {
     database = data;
     var queryType = getQueryType(query);
+    var table;
+    var rows;
+    var conditions;
+    if(queryType === 'read') {
+
+    }
     return {};
+  };
+
+  var parse = function(query) {
+    var json = {};
+    var words = query.split(' ');
+    var latestKey;
+    var firstValueForLatestKey;
+    for(var i = 0; i < words.length; i++) {
+      if(isReservedWord(words[i])) {
+        latestKey = words[i];
+        firstValueForLatestKey = true;
+        json[latestKey] = '';
+      } else if(typeof latestKey !== 'undefined'){
+        if(! firstValueForLatestKey) json[latestKey] += ' ';
+        firstValueForLatestKey = false;
+        json[latestKey] += words[i];
+      }
+    }
+    return json;
   };
 
   var createData = function(table, data) {
@@ -59,8 +87,9 @@ websqlMock = function() {
   };
 
   public._private = {
+    parse: parse,
     isReservedWord: isReservedWord,
-     getQueryType: getQueryType
+    getQueryType: getQueryType
   };
 
   return public;
