@@ -38,13 +38,6 @@ websqlMock = function() {
   };
 
   var getQueryType = function(query) {
-    console.log(queryTypes);
-    console.log(query);
-    console.log(query.split(' '));
-    console.log(query.split(' '));
-    console.log(query.split(' ')[0]);
-    console.log(query.split(' ')[0].toUpperCase());
-    console.log(queryTypes[query.split(' ')[0].toUpperCase()]);
     return queryTypes[query.split(' ')[0].toUpperCase()];
   };
 
