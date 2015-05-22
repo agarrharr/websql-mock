@@ -16,6 +16,7 @@ websqlMock = function() {
     'SELECT': 'read',
     'INSERT': 'update',
     'UPDATE': 'update',
+    'DELETE': 'delete',
   };
 
   var query = function(query, data) {
